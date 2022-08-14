@@ -221,8 +221,8 @@ int main()
     gameDisplayInstructions();
 
     // Seed the random number generator
-    srand(1);  // leave at default 1 for test cases / predictable results, 
-               // otherwise time(0) or time(NULL) for different results
+    srand(time(NULL));  // leave at default 1 for test cases / predictable results, 
+                        // otherwise time(0) or time(NULL) for different results
   
     // Keep looping to display menu until user selects the option to exit
     while (true) {
