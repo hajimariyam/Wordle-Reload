@@ -67,8 +67,8 @@ void readWordleWords(vector <string> & threeLettered, vector <string> & fiveLett
 //--------------------------------------------------------------------------------
 // Binary search algorithm
 int binarySearch(const vector <string> & wordleWords, string guessWord) {
-    int mid;
     int low;
+    int mid;
     int high;
     
     low = 0;
@@ -76,11 +76,11 @@ int binarySearch(const vector <string> & wordleWords, string guessWord) {
     
     while (high >= low) {
         mid = (high + low) / 2;
-        if (wordleWords[mid] < guessWord) {
-            low = mid + 1;
+        if (wordleWords[mid] < guessWord) {       // if search key was greater than middle element,
+            low = mid + 1;                        // search on remaining right sublist
         }
-        else if (wordleWords[mid] > guessWord) {
-            high = mid - 1;
+        else if (wordleWords[mid] > guessWord) {  // if search key was less than middle element,
+            high = mid - 1;                       // search on remaining left sublist
         }
         else {
             return mid;
@@ -94,7 +94,7 @@ int binarySearch(const vector <string> & wordleWords, string guessWord) {
 //--------------------------------------------------------------------------------
 void wordlePlay(int numLetters, const vector <string> & wordleWords, int & totalCorrect, int & currentStreak, int & longestStreak, int & totalTime) 
 {
-    string randomWord = wordleWords.at(rand() % wordleWords.size());    // random index within range: 0..wordleWords.size()-1
+    string randomWord = wordleWords.at(rand() % wordleWords.size());    // generate random index within range: 0..wordleWords.size()-1
     string guessWord;
     string outputWord = string(numLetters, '*');
     vector <string> allGuesses;
@@ -102,8 +102,6 @@ void wordlePlay(int numLetters, const vector <string> & wordleWords, int & total
     int timeLimit = numLetters * 10 - 10;
     time_t startTime;    // set to current time
     int elapsedSeconds = 0;
-
-    // cout << randomWord;
   
     cout << "\nTo get started, enter your first " << numLetters << " letter word.\n"
         << "You have " << numLetters + 1 << " attempts to guess the random word.\n"
@@ -161,7 +159,7 @@ void wordlePlay(int numLetters, const vector <string> & wordleWords, int & total
             cout << endl;
         }
 
-        totalAttempts += 1;
+        totalAttempts++;  // increment guess attempts used
 
         // Find the difference between the current time and the start time
         elapsedSeconds = difftime(time( NULL), startTime);
@@ -171,8 +169,9 @@ void wordlePlay(int numLetters, const vector <string> & wordleWords, int & total
                 << "  - You completed the board in: " << elapsedSeconds << " seconds.\n"
                 << "  - It took you " << totalAttempts << "/" << numLetters+1 << " attempts.\n";
             totalTime += elapsedSeconds;
-            totalCorrect += 1;
-            currentStreak += 1;
+            totalCorrect++; 
+            currentStreak++;
+            // Check if current streak count should replace longest streak
             if (currentStreak > longestStreak) {
                 longestStreak = currentStreak;
             }
@@ -191,6 +190,7 @@ void wordlePlay(int numLetters, const vector <string> & wordleWords, int & total
       
         else if (totalAttempts == numLetters+1 && randomWord.compare(guessWord) != 0) {
             cout << "\nMaximum amount of attempts have been reached. Try again.\n";
+            // Check if current streak count should replace longest streak
             if (currentStreak > longestStreak) {
                 longestStreak = currentStreak;
             }
